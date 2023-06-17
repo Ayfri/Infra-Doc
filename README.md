@@ -23,12 +23,14 @@
         * [Configuration des utilisateurs](#configuration-des-utilisateurs)
         * [Configuration du DNS](#configuration-du-dns)
     * [Serveur de messagerie](#serveur-de-messagerie)
-        * [Installation](#installation-3)
-        * [Configuration](#configuration-3)
-    * [Serveur Web](#serveur-web)
         * [Installation](#installation-2)
         * [Configuration](#configuration-2)
-    * [Installation des machines](#installation-des-machines)
+        * [Utilisation de la messagerie](#utilisation-de-la-messagerie)
+    * [Serveur Web](#serveur-web)
+        * [Installation](#installation-3)
+        * [Configuration](#configuration-3)
+    * [Client Windows](#client-windows)
+        * [Configuration](#configuration-4)
 * [Conclusion](#conclusion)
 
 ## Présentation du projet
@@ -318,11 +320,11 @@ Notre serveur DNS est maintenant configuré.
 Pour le service de messagerie, nous allons utiliser le service de messagerie de Windows Exchange Server 2019.<br>
 Nous allons installer le service de messagerie un nouveau serveur Windows Server 2019. <br>
 Nous passerons donc les détails de l'installation du windows serveur ainsi que des bonnes pratiques à respecter lors de
-l'installation car nous l'avons déjà fait précédemment. <br>
+l'installation, car nous l'avons déjà fait précédemment. <br>
 
 #### Installation
 
-Pour commencer il faudra télécharger l'image ISO de Windows Exchange Server 2019 sur le site de Microsoft.<br>
+Pour commencer, il faudra télécharger l'image ISO de Windows Exchange Server 2019 sur le site de Microsoft.<br>
 Une fois l'image ISO téléchargée, nous pouvons lancer l'installation de Windows Exchange Server 2019.
 
 ![Configuration du Windows Exchange Server 1](exchange-1.png)
@@ -399,6 +401,41 @@ reçu. <br> <br>
 
 Ainsi, nous avons configuré un serveur de messagerie avec Windows Exchange Server 2019 et nous avons pu envoyer et
 recevoir des mails sur notre domaine `infra.com`.
+
+
+## Serveur Web
+
+
+Pour le serveur web, nous allons utiliser le service Nginx. <br>
+Nous allons installer le service Nginx sur une nouvelle machine Ubuntu. <br> <br>
+Concernant les configurations de la machine Ubuntu, nous allons passer les détails de l'installation du système,
+car il n'y a rien de particulier à faire. <br>
+
+On commence par mettre à jour les paquets de la machine Ubuntu.
+
+```bash
+sudo apt update
+```
+
+On installe ensuite le service Nginx.
+
+```bash
+sudo apt install nginx
+```
+
+Une fois l'installation terminée, on peut vérifier que le service Nginx est bien installé et qu'il fonctionne.
+
+```bash
+sudo systemctl status nginx
+```
+
+Une fois le service Nginx installé, on peut se connecter à l'adresse IP de la machine Ubuntu avec un navigateur web. <br>
+Ainsi, on peut voir que le service Nginx est bien installé et qu'il fonctionne. <br> <br>
+Il reste maintenant à personnaliser la page d'accueil du serveur web afin qu'elle corresponde à notre domaine `infra.com`. <br>
+Étant donné que dans notre cas, il s'agit d'un projet de test, nous laisserons la page d'accueil par défaut de Nginx. <br> <br>
+
+Ainsi, nous avons configuré un serveur web avec Nginx sur une machine Ubuntu. <br>
+Ce dernier est accessible depuis les autres machines du réseau local via l'adresse IP de la machine Ubuntu.
 
 
 ### Client Windows
