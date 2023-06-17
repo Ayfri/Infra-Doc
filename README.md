@@ -1,4 +1,4 @@
-# Documentation d'architecture - Projet Infrastructure & Système d'information
+# Documentation d'architecture technique - Projet Infrastructure & Système d'information
 
 ## Membres du projet
 - Olivier MISTRAL
