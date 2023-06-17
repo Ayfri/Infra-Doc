@@ -1,39 +1,56 @@
 # Infra Documentation D'Architecture
 
-
 ## Table des matières
+
 * [Présentation du projet](#présentation-du-projet)
-  * [Cadre du projet](#cadre-du-projet)
-  * [Objectifs](#objectifs)
-  * [Réalisations](#réalisations)
+    * [Cadre du projet](#cadre-du-projet)
+    * [Objectifs](#objectifs)
+    * [Réalisations](#réalisations)
 * [Présentation de l'architecture réseau](#présentation-de-larchitecture-réseau)
     * [Schéma de l'architecture](#schéma-de-larchitecture)
     * [Tableau d'adressage](#tableau-dadressage)
     * [Explication de l'architecture](#explication-de-larchitecture)
 * [Mise en place de la solution](#mise-en-place-de-la-solution)
+    * [PFSense](#pfsense)
+        * [Installation](#installation)
+        * [Configuration](#configuration)
+        * [Configuration du réseau](#configuration-du-réseau)
+    * [Active Directory](#active-directory)
+        * [Installation](#installation-1)
+        * [Configuration](#configuration-1)
+    * [Serveur Web](#serveur-web)
+        * [Installation](#installation-2)
+        * [Configuration](#configuration-2)
+    * [Serveur de messagerie](#serveur-de-messagerie)
+        * [Installation](#installation-3)
+        * [Configuration](#configuration-3)
+* [Conclusion](#conclusion)
 
 ## Présentation du projet
+
 Nous sommes Olivier MISTRAL et Pierre ROY, étudiants en 2ème année Bachelor à Ynov Informatique.
 
 ### Cadre du projet
+
 Dans le cadre de notre unité d'enseignement “Infrastructure & Système d’information”, nous avons réalisé un projet
 visant à évaluer les compétences acquises au cours des modules de cette unité. Cette documentation présente la mise en
-place de l'architecture réseau que nous avons réalisé dans le cadre de ce projet. SAUT DE LIGNE 
+place de l'architecture réseau que nous avons réalisé dans le cadre de ce projet. <br><br>
 Ce projet consiste à mettre en place une architecture réseau pour une entreprise lambda. Cette architecture doit
-permettre de répondre aux besoins de l'entreprise, à savoir : avoir une sécurité de son réseau via un parefeu, que ses 
+permettre de répondre aux besoins de l'entreprise, à savoir : avoir une sécurité de son réseau via un parefeu, que ses
 collaborateurs puissent s’authentifier et ouvrir leur propre session, qu’ils puissent envoyer des mails en
 interne dans un premier temps, et accéder à un intranet.
 
-
 ### Objectifs
+
 Les objectifs de ce projet étaient les suivants:
 
 - Configurer et administrer un serveur
 - Gérer un environnement virtuel
 - Mettre en place une infrastructure système et réseaux
-- Appréhender la sécurité 
+- Appréhender la sécurité
 
 ### Réalisations
+
 Notre projet a consisté à:
 
 - Configurer un pare-feu PFSense
@@ -60,32 +77,38 @@ Notre projet a consisté à:
 ### Explication de l'architecture
 
 L'architecture réseau est composée de 4 LANs, un pour l'administration, un pour l'Active Directory, un pour le serveur
-web ainsi que la messagerie (DMZ) et un pour les clients. Chaque LAN est cloisonné par un pare-feu PFSense. 
-Lan 0/Admin : Ce LAN est réservé à l'administration du réseau, il est donc accessible uniquement par les administrateurs.
-Lan 1/AD : Ce LAN est réservé à l'Active Directory, il est donc accessible uniquement par les administrateurs et les 
+web ainsi que la messagerie (DMZ) et un pour les clients. Chaque LAN est cloisonné par un pare-feu PFSense.
+<br><br>Lan 0/Admin : Ce LAN est réservé à l'administration du réseau, il est donc accessible uniquement par les
+administrateurs.
+<br>Lan 1/AD : Ce LAN est réservé à l'Active Directory, il est donc accessible uniquement par les administrateurs et les
 utilisateurs du domaine.
-Lan 2/Web-Mail (DMZ) : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par les
+<br>Lan 2/Web-Mail (DMZ) : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par les
 administrateurs et les utilisateurs du domaine.
-Lan 3/Clients : Ce LAN est réservé aux clients, il est donc accessible uniquement par les administrateurs et les
+<br>Lan 3/Clients : Ce LAN est réservé aux clients, il est donc accessible uniquement par les administrateurs et les
 utilisateurs du domaine.
+
+## Mise en place de la solution
+
+### PFSense
+
+
 
 ## Installation des machines
 
 ### PFSense
 
 #### Installation
-PFSense est un outil de surveillance de la sécurité du réseau. Il permet de surveiller les connexions et les déconnexions des utilisateurs.<br>
-Pour l'installer, il suffit de télécharger un ISO sur le site de la communauté de PFSense, puis de l'installer sur le serveur :
 
-![PFSense Installation Étape 1](pfsense-install-1.png)
-
-Création d'une machine virtuelle avec l'ISO de PFSense.
+PFSense est un outil de surveillance de la sécurité du réseau. Il permet de surveiller les connexions et les
+déconnexions des utilisateurs.<br>
+Pour l'installer, il suffit de télécharger un ISO sur le site de la communauté de PFSense, puis de l'installer sur le
+serveur.
 
 ![PFSense Installation Étape 2](pfsense-install-2.png)
 
 L'installation ne requiert pas d'autres étapes, une fois lancée PFSense est prêt à être utilisé.
 
-#### Configuration 
+#### Configuration
 
 Une fois PFSense installé, il faut le configurer.
 
@@ -107,7 +130,8 @@ Validation de la configuration à installer.
 
 ![Configuration pfsense 5](pfsense-config-5.png)
 
-PFSense demande de choisir un type d'utilisation de disque dur à plusieurs partitions, nous utilisons le type de disque dur par défaut.
+PFSense demande de choisir un type d'utilisation de disque dur à plusieurs partitions, nous utilisons le type de disque
+dur par défaut.
 
 ![Configuration pfsense 6](pfsense-config-6.png)
 
@@ -138,21 +162,29 @@ Le terminal de PFSense, nous allons définir les adresses IP des différents LAN
 
 ![Configuration du réseau pfsense 1.1](pfsense-network1.1.png)
 
-Définition de l'adresse IP du LAN 4 et du masque de sous-réseau et de l'interface.
+Pour l'exemple, nous allons configurer le LAN 0/Admin. Dans notre configuration, le LAN 0/Admin est sur l'interface 4.
+<br>Il faut donc ensuite définit l'adresse IP de l'interface 4 ainsi que le masque de sous-réseau.
 
 ![Configuration du réseau pfsense 1.2](pfsense-network1.2.png)
 
 Choix des options pour ne pas mettre de DHCP et de ne pas utiliser IPv6 et d'autres options.<br>
 Puis nous ferons la même chose pour les autres LANs.
 
+![Configuration du réseau pfsense 1.3](pfsense-network1.3.png)
+
+Voilà ce que donne la configuration des interfaces.
+
 ![Configuration du réseau pfsense 2](pfsense-network-2.png)
 
-Une fois fait, PFSense créé un site local via son adresse IP pour pouvoir configurer des règles.<br>
-Il faut se connecter au site pour pouvoir configurer les règles.
+Une fois les interfaces configurées, PFSense créé un site local via son adresse IP pour pouvoir configurer des règles.<br>
+Il faut se connecter au site pour pouvoir configurer les règles (par défaut le nom de compte est admin et le mot de
+passe est pfsense).
+
 
 > Note :
-> Le pare-feu va bloquer le rafraîchissement de notre page donc taper la commande `pfctl -d` dans le terminal du PfSense,
-qui va désactiver le pare-feu pour nous permettre d’affecter nos changements.<br>
+> Le pare-feu va bloquer le rafraîchissement de notre page donc taper la commande `pfctl -d` dans le terminal du
+> PfSense,
+> qui va désactiver le pare-feu pour nous permettre d’affecter nos changements.<br>
 > ![Configuration du réseau pfsense 3](pfsense-network-3.png)
 
 #### Les règles PFSense :
@@ -215,7 +247,8 @@ Le nom de domaine sera `infra.com` pour le projet.
 
 ![Configuration du Windows Server 9](windows-server-config-9.png)
 
-Nous choisissons le niveau fonctionnel de la forêt et du domaine et nous choisissons le mot de passe du mode de restauration des services d'annuaire.
+Nous choisissons le niveau fonctionnel de la forêt et du domaine et nous choisissons le mot de passe du mode de
+restauration des services d'annuaire.
 
 ![Configuration du Windows Server 10](windows-server-config-10.png)
 
@@ -269,7 +302,6 @@ Utilisation de la commande `nslookup` pour vérifier que le DNS fonctionne corre
 Puis nous pouvons ajouter un utilisateur dans le DNS.
 
 ### Serveur Web/Mail
-
 
 ### Client Windows
 
