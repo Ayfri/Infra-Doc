@@ -42,6 +42,33 @@ Notre projet a consisté à:
 - Configurer un serveur web pour l'intranet
 - Respecter les règles de sécurité afin de protéger le réseau (cloisonnement des réseaux, etc.)
 
+## Présentation de l'architecture réseau
+
+### Schéma de l'architecture
+
+![Schéma de l'architecture](schema.png)
+
+### Tableau d'adressage
+
+|                          | Lan 0/Admin | Lan 1/AD    | Lan 2/Web-Mail | Lan 3/Clients |
+|:-------------------------|-------------|-------------|----------------|---------------|
+| Sous réseau              | 10.0.0.0/24 | 10.0.1.0/24 | 10.0.2.0/24    | 10.0.3.0/24   |
+| Passerelle/Interface LAN | 10.0.0.1    | 10.0.1.1    | 10.0.2.1       | 10.0.3.1      |
+| Serveur                  |             | 10.0.1.x    | 10.0.2.x       |               |
+| Client                   | 10.0.0.x    |             |                | 10.0.3.x      |
+
+### Explication de l'architecture
+
+L'architecture réseau est composée de 4 LANs, un pour l'administration, un pour l'Active Directory, un pour le serveur
+web ainsi que la messagerie (DMZ) et un pour les clients. Chaque LAN est cloisonné par un pare-feu PFSense. 
+Lan 0/Admin : Ce LAN est réservé à l'administration du réseau, il est donc accessible uniquement par les administrateurs.
+Lan 1/AD : Ce LAN est réservé à l'Active Directory, il est donc accessible uniquement par les administrateurs et les 
+utilisateurs du domaine.
+Lan 2/Web-Mail (DMZ) : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par les
+administrateurs et les utilisateurs du domaine.
+Lan 3/Clients : Ce LAN est réservé aux clients, il est donc accessible uniquement par les administrateurs et les
+utilisateurs du domaine.
+
 ## Installation des machines
 
 ### PFSense
@@ -255,16 +282,3 @@ Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre 
 
 Dans le Client Windows cela se configure dans les paramètres IPv4.
 
-
-## Tableau d'adressage
-
-|                          | Lan 0/Admin | Lan 1/AD    | Lan 2/Web   | Lan 3/Client |
-|:-------------------------|-------------|-------------|-------------|--------------|
-| Sous réseau              | 10.0.0.0/24 | 10.0.1.0/24 | 10.0.2.0/24 | 10.0.3.0/24  |
-| Passerelle/Interface LAN | 10.0.0.1    | 10.0.1.1    | 10.0.2.1    | 10.0.3.1     |
-| Serveur                  |             | 10.0.1.x    | 10.0.2.x    |              |
-| Client                   | 10.0.0.x    |             |             | 10.0.3.x     |
-
-## Schema du réseau
-
-![Schema du réseau](schema.png)
