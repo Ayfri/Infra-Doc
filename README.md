@@ -15,15 +15,20 @@
         * [Installation](#installation)
         * [Configuration](#configuration)
         * [Configuration du réseau](#configuration-du-réseau)
+        * [Configuration du pare-feu](#configuration-du-pare-feu)
+        * [Configuration de la sauvegarde](#configuration-de-la-sauvegarde)
     * [Active Directory](#active-directory)
         * [Installation](#installation-1)
         * [Configuration](#configuration-1)
-    * [Serveur Web](#serveur-web)
-        * [Installation](#installation-2)
-        * [Configuration](#configuration-2)
+        * [Configuration des utilisateurs](#configuration-des-utilisateurs)
+        * [Configuration du DNS](#configuration-du-dns)
     * [Serveur de messagerie](#serveur-de-messagerie)
         * [Installation](#installation-3)
         * [Configuration](#configuration-3)
+    * [Serveur Web](#serveur-web)
+        * [Installation](#installation-2)
+        * [Configuration](#configuration-2)
+    * [Installation des machines](#installation-des-machines)
 * [Conclusion](#conclusion)
 
 ## Présentation du projet
@@ -88,12 +93,6 @@ administrateurs et les utilisateurs du domaine.
 utilisateurs du domaine.
 
 ## Mise en place de la solution
-
-### PFSense
-
-
-
-## Installation des machines
 
 ### PFSense
 
@@ -204,9 +203,9 @@ Une fois la règle créée, nous pouvons tester si elle est bien active.
 
 Le ping fonctionne, la règle est bien active.
 
-### Windows Server 2019
+### Active Directory
 
-#### Configuration
+#### Installation
 
 Plusieurs bonnes pratiques sont à respecter lors de l'installation d'un serveur Windows Server 2019 :
 
@@ -218,6 +217,8 @@ D'abord, nous changeons le nom de la machine pour qu'il soit plus facile à iden
 
 Nous changeons l'adresse IP de la machine pour qu'elle soit dans le même réseau que le serveur PFSense.<br>
 Puis, nous installons aussi les mises à jour de Windows Server 2019.<br>
+
+#### Configuration
 
 ![Configuration du Windows Server 3](windows-server-config-3.png)
 
@@ -258,7 +259,8 @@ Nous choisissons les options par défaut jusqu'à la fin de l'installation et no
 
 ![Configuration du Windows Server 11](windows-server-config-11.png)
 
-Nous pouvons maintenant créer des utilisateurs pour le domaine.
+Nous pouvons maintenant créer des utilisateurs pour le domaine en allant dans l'onglet
+"Utilisateurs et ordinateurs Active Directory".
 
 ![Configuration du Windows Server 12](windows-server-config-12.png)
 
@@ -283,23 +285,31 @@ Une zone de recherche directe est déjà créée par défaut pour le domaine `in
 
 Nous allons ajouter une zone de recherche inversée pour le domaine `infra.com`.
 
-![Configuration du DNS 2](windows-server-dns-2.png)
-![Configuration du DNS 3](windows-server-dns-3.png)
-![Configuration du DNS 4](windows-server-dns-4.png)
-![Configuration du DNS 5](windows-server-dns-5.png)
+[//]: # (![Configuration du DNS 2]&#40;windows-server-dns-2.png&#41;)
+
+[//]: # (![Configuration du DNS 3]&#40;windows-server-dns-3.png&#41;)
+
+[//]: # (![Configuration du DNS 4]&#40;windows-server-dns-4.png&#41;)
+
+[//]: # (![Configuration du DNS 5]&#40;windows-server-dns-5.png&#41;)
 ![Configuration du DNS 6](windows-server-dns-6.png)
-![Configuration du DNS 7](windows-server-dns-7.png)
 
-Choix des options par défaut pour la zone de recherche inversée.
+[//]: # (![Configuration du DNS 7]&#40;windows-server-dns-7.png&#41;)
 
-![Configuration du DNS 8](windows-server-dns-8.png)
+Concernant les options à choisir on laisse les options par défaut sauf dans le nom de la zone de recherche inversée où
+on indique le début de l'adresse IP du serveur Windows Server 2019. Ainsi, la zone de recherche inversée sera
+`10.0`.<br>
+On fait ceci pour que le serveur DNS puisse faire la résolution de nom de domaine et de toutes les adresses IP du réseau.
 
-Nous créons un nouveau pointeur pour la zone de recherche inversée.
+[//]: # (![Configuration du DNS 8]&#40;windows-server-dns-8.png&#41;)
+
+[//]: # ()
+[//]: # (Nous créons un nouveau pointeur pour la zone de recherche inversée.)
 
 ![Configuration du DNS 9](windows-server-dns-9.png)
 
-Utilisation de la commande `nslookup` pour vérifier que le DNS fonctionne correctement.<br>
-Puis nous pouvons ajouter un utilisateur dans le DNS.
+On utilise la commande `nslookup` pour vérifier que la résolution de nom de domaine fonctionne bien. On vérifie aussi 
+que la résolution de nom de domaine inverse fonctionne bien.
 
 ### Serveur Web/Mail
 
