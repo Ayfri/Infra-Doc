@@ -1,6 +1,7 @@
 # Documentation d'architecture technique - Projet Infrastructure & Système d'information
 
 ## Membres du projet
+
 - Olivier MISTRAL
 - Pierre ROY
 
@@ -88,15 +89,15 @@ Notre projet a consisté à :
 
 L'architecture réseau est composée de 4 LANs, un pour l'administration, un pour l'Active Directory, un pour le serveur
 web ainsi que la messagerie (DMZ) et un pour les clients. Chaque LAN est cloisonné par un pare-feu PFSense.
-<br><br>Lan 0/Admin : Ce LAN est réservé à l'administration du réseau, il est donc accessible uniquement par les
-administrateurs.
-<br>Lan 1/AD : Ce LAN est réservé à l'Active Directory, il est donc accessible uniquement par les administrateurs et les
-utilisateurs du domaine.
-<br>Lan 2/Web-Mail (DMZ) : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par
-les
-administrateurs et les utilisateurs du domaine.
-<br>Lan 3/Clients : Ce LAN est réservé aux clients, il est donc accessible uniquement par les administrateurs et les
-utilisateurs du domaine.
+
+- `Lan 0/Admin` : Ce LAN est réservé à l'administration du réseau, il est donc accessible uniquement par les
+  administrateurs.
+- `Lan 1/AD` : Ce LAN est réservé à l'Active Directory, il est donc accessible uniquement par les administrateurs et les
+  utilisateurs du domaine.
+- `Lan 2/Web-Mail (DMZ)` : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par
+  les administrateurs et les utilisateurs du domaine.
+- `Lan 3/Clients` : Ce LAN est réservé aux clients, il est donc accessible uniquement par les administrateurs et les
+  utilisateurs du domaine.
 
 ## Mise en place de la solution
 
@@ -186,7 +187,6 @@ règles.<br>
 Il faut se connecter au site pour pouvoir configurer les règles (par défaut le nom de compte est admin et le mot de
 passe est pfsense).
 
-
 > Note :
 > Le pare-feu va bloquer le rafraîchissement de notre page donc taper la commande `pfctl -d` dans le terminal du
 > PfSense,
@@ -222,12 +222,16 @@ Enfin, on configure la passerelle par défaut, dans notre cas, nous utilisons l'
 
 Concernant les règles de pare-feu, nous allons paramétrer les règles de base pour chaque LAN. <br>
 Pour cela, il faut aller dans l'onglet `Firewall` puis `Rules`. Ensuite, on choisit sur quel LAN on veut configurer les
-règles. <br>
+règles.
+
 ![Configuration du réseau pfsense 4](pfsense-network-4.png)
-Une fois la LAN choisie, on clique sur `Add` pour ajouter une règle. <br> <br>
+
+Une fois la LAN choisie, on clique sur `Add` pour ajouter une règle.
+
 Dans notre cas la règle la plus importante est celle qui permet de bloquer les connexions venant du WAN vers le LAN du
 serveur web et mail. En effet, comme il s'agit d'un intranet, nous ne voulons pas que des personnes extérieures puissent
-accéder à ces services. <br> <br>
+accéder à ces services.
+
 Concernant les autres règles, cela dépend les besoins de chaque entreprise. Par exemple, une entreprise manipulant des
 données sensibles peut vouloir bloquer l'accès à certains sites internet voir bloquer l'accès à internet tout court.
 Mais si l'entreprise souhaite que ses employés puissent accéder à internet, elle peut vouloir bloquer l'accès à certains
@@ -255,7 +259,8 @@ Si nous voulons restaurer une sauvegarde, il suffit de cliquer sur l'image de re
 
 ![Configuration de la sauvegarde 4](pfsense-backup-4.png)
 
-PFSense nous demande ensuite si nous voulons restaurer la sauvegarde, il faut cliquer sur `OK`. <br> <br>
+PFSense nous demande ensuite si nous voulons restaurer la sauvegarde, il faut cliquer sur `OK`.
+
 La restauration de la sauvegarde de la configuration est maintenant terminée.
 
 ### Active Directory
@@ -271,7 +276,7 @@ D'abord, nous changeons le nom de la machine pour qu'il soit plus facile à iden
 ![Configuration du Windows Server 2](windows-server-config-2.png)
 
 Nous changeons l'adresse IP de la machine pour qu'elle soit dans le même réseau que le serveur PFSense.<br>
-Puis, nous installons aussi les mises à jour de Windows Server 2019.<br>
+Puis, nous installons aussi les mises à jour de Windows Server 2019.
 
 #### Configuration
 
@@ -303,8 +308,7 @@ Le nom de domaine sera `infra.com` pour le projet.
 
 ![Configuration du Windows Server 9](windows-server-config-9.png)
 
-Nous choisissons le niveau fonctionnel de la forêt et du domaine et nous choisissons le mot de passe du mode de
-restauration des services d'annuaire.
+Nous choisissons le niveau fonctionnel de la forêt et du domaine et nous choisissons le mot de passe du mode de restauration des services d'annuaire.
 
 ![Configuration du Windows Server 10](windows-server-config-10.png)
 
@@ -314,8 +318,7 @@ Nous choisissons les options par défaut jusqu'à la fin de l'installation et no
 
 ![Configuration du Windows Server 11](windows-server-config-11.png)
 
-Nous pouvons maintenant créer des utilisateurs pour le domaine en allant dans l'onglet
-"Utilisateurs et ordinateurs Active Directory".
+Nous pouvons maintenant créer des utilisateurs pour le domaine en allant dans l'onglet `Utilisateurs et ordinateurs Active Directory`.
 
 ![Configuration du Windows Server 12](windows-server-config-12.png)
 
@@ -351,11 +354,10 @@ Nous allons ajouter une zone de recherche inversée pour le domaine `infra.com`.
 
 [//]: # (![Configuration du DNS 7]&#40;windows-server-dns-7.png&#41;)
 
-Concernant les options à choisir on laisse les options par défaut sauf dans le nom de la zone de recherche inversée où
-on indique le début de l'adresse IP du serveur Windows Server 2019. Ainsi, la zone de recherche inversée sera
-`10.0`.<br>
-On fait ceci pour que le serveur DNS puisse faire la résolution de nom de domaine et de toutes les adresses IP du
-réseau.
+Concernant les options à choisir, on laisse les options par défaut sauf dans le nom de la zone de recherche inversée où on indique le début de l'adresse IP du serveur Windows
+Server 2019.
+Ainsi, la zone de recherche inversée sera `10.0`.<br>
+On fait ceci pour que le serveur DNS puisse faire la résolution de nom de domaine et de toutes les adresses IP du réseau.
 
 [//]: # (![Configuration du DNS 8]&#40;windows-server-dns-8.png&#41;)
 
@@ -365,17 +367,15 @@ réseau.
 
 ![Configuration du DNS 9](windows-server-dns-9.png)
 
-On utilise la commande `nslookup` pour vérifier que la résolution de nom de domaine fonctionne bien. On vérifie aussi
-que la résolution de nom de domaine inverse fonctionne bien.
-<br> <br>
+On utilise la commande `nslookup` pour vérifier que la résolution de nom de domaine fonctionne bien. On vérifie aussi que la résolution de nom de domaine inverse fonctionne bien.
+
 Notre serveur DNS est maintenant configuré.
 
 ### Serveur de messagerie
 
 Pour le service de messagerie, nous allons utiliser le service de messagerie de Windows Exchange Server 2019.<br>
 Nous allons installer le service de messagerie un nouveau serveur Windows Server 2019. <br>
-Nous passerons donc les détails de l'installation du windows serveur ainsi que des bonnes pratiques à respecter lors de
-l'installation, car nous l'avons déjà fait précédemment. <br>
+Nous passerons donc les détails de l'installation du windows serveur ainsi que des bonnes pratiques à respecter lors de l'installation, car nous l'avons déjà fait précédemment.
 
 #### Installation
 
@@ -391,39 +391,36 @@ On laisse les options par défaut pour la plupart des options, dans la partie "S
 
 On continue alors jusqu'à demander le nom de l'organisation. On choisit `infra.com` pour le nom de l'organisation dans
 notre cas. <br>
-Après cela on continue jusqu'à la fin des configurations. <br>
-Se lancera alors l'installation de Windows Exchange Server 2019 qui peut être excessivement longue. Une fois
+Après cela, on continue jusqu'à la fin des configurations. <br>
+Se lancera ensuite l'installation de Windows Exchange Server 2019 qui peut être excessivement longue. Une fois
 l'installation terminée, on redémarre le serveur.
 
 #### Configuration
 
-Avant de configurer le serveur de messagerie, on va retourner dans l'Active Directory pour créer un nouvel utilisateur
-qui sera le compte administrateur du serveur de messagerie. <br>
+Avant de configurer le serveur de messagerie, on va retourner dans l'Active Directory pour créer un nouvel utilisateur qui sera le compte administrateur du serveur de messagerie.
 
 ![Configuration du Windows Exchange Server 3](exchange-3.png)
 
-Par ailleurs, on se rend compte en retournant dans l'AD qu'une nouvelle Unité d'Organisation a été créée pour le serveur
-de messagerie.
+Par ailleurs, on se rend compte en retournant dans l'AD qu'une nouvelle Unité d'Organisation a été créée pour le serveur de messagerie.
 
 ![Configuration du Windows Exchange Server 4](exchange-4.png)
 ![Configuration du Windows Exchange Server 5](exchange-5.png)
 
-Afin de clarifier les choses, nous allons créer une Unité d'Organisation `Exchange` dans laquelle nous allons mettre le
-ou les comptes administrateurs du serveur de messagerie. Il ne faut donc pas oublier de lui associer les droits
-d'administrateur du serveur de messagerie.
+Afin de clarifier les choses, nous allons créer une Unité d'Organisation `Exchange` dans laquelle nous allons mettre le ou les comptes administrateurs du serveur de messagerie.
+Il ne faut donc pas oublier de lui associer les droits d'administrateur du serveur de messagerie.
 
 ![Configuration du Windows Exchange Server 6](exchange-6.png)
 
-Maintenant que le compte administrateur est créé, nous pouvons nous connecter au serveur de messagerie avec ce
-compte. <br>
-Pour cela, nous allons entrer l'url `https://localhost/ecp` dans un navigateur web. <br>
-Cela nous permettra de nous connecter à l'interface d'administration du serveur de messagerie. <br>
+Maintenant que le compte administrateur est créé, nous pouvons nous connecter au serveur de messagerie avec ce compte. <br>
+Pour cela, nous allons entrer l'URL `https://localhost/ecp` dans un navigateur web. <br>
+Cela nous permettra de nous connecter à l'interface d'administration du serveur de messagerie.
+
 Nous allons nous connecter avec le compte administrateur que nous venons de créer.
 
 ![Configuration du Windows Exchange Server 7](exchange-7.png)
 
 Nous arrivons alors sur l'interface d'administration du serveur de messagerie. <br>
-De là, nous allons pouvoir configurer le serveur de messagerie. <br>
+De là, nous allons pouvoir configurer le serveur de messagerie.
 
 ![Configuration du Windows Exchange Server 8](exchange-8.png)
 
@@ -432,38 +429,37 @@ Dans notre cas nous allons ajouter une nouvelle boîte aux lettres pour l'utilis
 ![Configuration du Windows Exchange Server 9](exchange-9.png)
 
 On remplit alors l'alias de la boîte aux lettres, c'est-à-dire le suffixe de l'adresse mail. <br>
-Et on n'oublie pas non plus de choisir l'utilisateur auquel on veut associer la boîte aux lettres. <br> <br>
+Et on n'oublie pas non plus de choisir l'utilisateur auquel on veut associer la boîte aux lettres.
+
 Une fois cela fait, notre boîte aux lettres est créée et est prête à être utilisée.
 
 #### Utilisation de la messagerie
 
 Pour utiliser la messagerie, nous allons utiliser nous connecter sur une machine Client Windows. <br>
-On inscrit alors dans l'url du navigateur web l'adresse IP du serveur de messagerie, ce qui nous permettra de nous
+On inscrit alors dans l'URL du navigateur web l'adresse IP du serveur de messagerie, ce qui nous permettra de nous
 connecter à l'interface de connexion de la messagerie. <br>
 On se connecte alors avec l'adresse mail et le mot de passe de l'utilisateur auquel on a associé la boîte aux lettres.
 
 ![Configuration du Windows Exchange Server 10](exchange-10.png)
 
-Nous voilà connecté à la messagerie sur le compte de l'utilisateur `Pace Fabio`. <br>
+Nous voilà connecté à la messagerie sur le compte de l'utilisateur `Pace Fabio`.
 
 ![Configuration du Windows Exchange Server 11](exchange-11.png)
 
-On peut alors envoyer un mail à un autre utilisateur de la messagerie. <br>
+On peut alors envoyer un mail à un autre utilisateur de la messagerie.
 
 ![Configuration du Windows Exchange Server 12](exchange-12.png)
 
-En se connectant sur la messagerie de l'utilisateur auquel on a envoyé le mail, on peut voir que le mail a bien été
-reçu. <br> <br>
+En se connectant sur la messagerie de l'utilisateur auquel on a envoyé le mail, on peut voir que le mail a bien été reçu.
 
-Ainsi, nous avons configuré un serveur de messagerie avec Windows Exchange Server 2019 et nous avons pu envoyer et
-recevoir des mails sur notre domaine `infra.com`.
+Ainsi, nous avons configuré un serveur de messagerie avec Windows Exchange Server 2019 et nous avons pu envoyer et recevoir des mails sur notre domaine `infra.com`.
 
 ## Serveur Web
 
 Pour le serveur web, nous allons utiliser le service Nginx. <br>
-Nous allons installer le service Nginx sur une nouvelle machine Ubuntu. <br> <br>
-Concernant les configurations de la machine Ubuntu, nous allons passer les détails de l'installation du système,
-car il n'y a rien de particulier à faire. <br>
+Nous allons installer le service Nginx sur une nouvelle machine Ubuntu.
+
+Concernant les configurations de la machine Ubuntu, nous allons passer les détails de l'installation du système, car il n'y a rien de particulier à faire.
 
 On commence par mettre à jour les paquets de la machine Ubuntu.
 
@@ -483,20 +479,18 @@ Une fois l'installation terminée, on peut vérifier que le service Nginx est bi
 sudo systemctl status nginx
 ```
 
-Une fois le service Nginx installé, on peut se connecter à l'adresse IP de la machine Ubuntu avec un navigateur
-web. <br>
-Ainsi, on peut voir que le service Nginx est bien installé et qu'il fonctionne. <br> <br>
-Il reste maintenant à personnaliser la page d'accueil du serveur web afin qu'elle corresponde à notre
-domaine `infra.com`. <br>
-Étant donné que dans notre cas, il s'agit d'un projet de test, nous laisserons la page d'accueil par défaut de
-Nginx. <br> <br>
+Une fois le service Nginx installé, on peut se connecter à l'adresse IP de la machine Ubuntu avec un navigateur web. <br>
+Ainsi, on peut voir que le service Nginx est bien installé et qu'il fonctionne.
+
+Il reste maintenant à personnaliser la page d'accueil du serveur web afin qu'elle corresponde à notre domaine `infra.com`. <br>
+Étant donné que dans notre cas, il s'agit d'un projet de test, nous laisserons la page d'accueil par défaut de Nginx.
 
 Ainsi, nous avons configuré un serveur web avec Nginx sur une machine Ubuntu. <br>
 Ce dernier est accessible depuis les autres machines du réseau local via l'adresse IP de la machine Ubuntu.
 
 ### Client Windows
 
-Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`.<br>
+Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`.
 
 > Important ! <br>
 > La version de windows utilisée ne doit pas être une version familiale, car ces dernières ne permettent pas de
@@ -505,37 +499,33 @@ Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre 
 
 #### Configuration
 
-Pour commencer, nous allons configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`. <br>
+Pour commencer, nous allons configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`.
 
 ![Configuration du DNS 10](windows-client-config-200.png)
 ![Configuration du DNS 11](windows-client-config-201.png)
 
-Pour cela, on se rend dans les paramètres de la machine Windows, puis dans les paramètres avancés pour pouvoir changer
-le nom de la machine. <br>
+Pour cela, on se rend dans les paramètres de la machine Windows, puis dans les paramètres avancés pour pouvoir changer le nom de la machine. <br>
 On a alors sur le bas de la fenêtre la possibilité de rejoindre un domaine. <br>
-Dans notre cas, nous allons renseigner le nom de domaine `infra.com` et nous allons cliquer sur le bouton `OK`. <br>
+Dans notre cas, nous allons renseigner le nom de domaine `infra.com` et nous allons cliquer sur le bouton `OK`.
 
 ![Configuration du DNS 12](windows-client-config-202.png)
 
 On nous demande alors de nous connecter avec un compte administrateur du domaine. <br>
-On se connecte alors avec le compte administrateur du domaine `infra.com`. <br>
+On se connecte alors avec le compte administrateur du domaine `infra.com`.
 
 ![Configuration du DNS 13](windows-client-config-203.png)
 
-Un message nous indique alors que la machine a bien été ajoutée au domaine `infra.com`. <br>
+Un message nous indique alors que la machine a bien été ajoutée au domaine `infra.com`.
 
 ![Configuration du DNS 14](windows-client-config-204.png)
 ![Configuration du DNS 15](windows-client-config-205.png)
 
-Au redémarrage de la machine, on peut voir que l'on peut se connecter avec un compte du domaine `infra.com`. <br> <br>
-Voilà, notre machine Windows est maintenant bien connectée au domaine `infra.com`. <br> <br>
-Elle est donc maintenant prête à être utilisée et à utiliser les différents services du domaine `infra.com` comme le
-serveur de messagerie ou l'intranet.
+Au redémarrage de la machine, on peut voir que l'on peut se connecter avec un compte du domaine `infra.com`.
+
+Voilà, notre machine Windows est maintenant bien connectée au domaine `infra.com`.
+
+Elle est donc maintenant prête à être utilisée et à utiliser les différents services du domaine `infra.com` comme le serveur de messagerie ou l'intranet.
 
 ## Conclusion
 
-Pour conclure ce projet, nous avons pu mettre en place un domaine `infra.com` avec un serveur DNS, un serveur DHCP, un
-serveur de messagerie et un intranet. <br>
-
-
-
+Pour conclure ce projet, nous avons pu mettre en place un domaine `infra.com` avec un serveur DNS, un serveur DHCP, un serveur de messagerie et un intranet. <br>
