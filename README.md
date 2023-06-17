@@ -1,4 +1,8 @@
-# Infra Documentation D'Architecture
+# Documentation d'architecture - Projet Infrastructure & Système d'information
+
+## Membres du projet
+- Olivier MISTRAL
+- Pierre ROY
 
 ## Table des matières
 
