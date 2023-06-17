@@ -15,7 +15,7 @@
         * [Installation](#installation)
         * [Configuration](#configuration)
         * [Configuration du réseau](#configuration-du-réseau)
-        * [Configuration du pare-feu](#configuration-du-pare-feu)
+        * [Configuration des règles du pare-feu](#configuration-des-règles-du-pare-feu)
         * [Configuration de la sauvegarde](#configuration-de-la-sauvegarde)
     * [Active Directory](#active-directory)
         * [Installation](#installation-1)
@@ -47,7 +47,7 @@ interne dans un premier temps, et accéder à un intranet.
 
 ### Objectifs
 
-Les objectifs de ce projet étaient les suivants:
+Les objectifs de ce projet étaient les suivants :
 
 - Configurer et administrer un serveur
 - Gérer un environnement virtuel
@@ -56,7 +56,7 @@ Les objectifs de ce projet étaient les suivants:
 
 ### Réalisations
 
-Notre projet a consisté à:
+Notre projet a consisté à :
 
 - Configurer un pare-feu PFSense
 - Configurer un Active Directory pour gérer les utilisateurs
@@ -186,24 +186,23 @@ passe est pfsense).
 > qui va désactiver le pare-feu pour nous permettre d’affecter nos changements.<br>
 > ![Configuration du réseau pfsense 3](pfsense-network-3.png)
 
-#### Les règles PFSense :
 
+#### Configuration des règles du pare-feu
+
+Concernant les règles de pare-feu, nous allons paramétrer les règles de base pour chaque LAN. <br>
+Pour cela, il faut aller dans l'onglet `Firewall` puis `Rules`. Ensuite, on choisit sur quel LAN on veut configurer les
+règles. <br>
 ![Configuration du réseau pfsense 4](pfsense-network-4.png)
+Une fois la LAN choisie, on clique sur `Add` pour ajouter une règle. <br> <br>
+Dans notre cas la règle la plus importante est celle qui permet de bloquer les connexions venant du WAN vers le LAN du
+serveur web et mail. En effet, comme il s'agit d'un intranet, nous ne voulons pas que des personnes extérieures puissent
+accéder à ces services. <br> <br>
+Concernant les autres règles, cela dépend les besoins de chaque entreprise. Par exemple, une entreprise manipulant des 
+données sensibles peut vouloir bloquer l'accès à certains sites internet voir bloquer l'accès à internet tout court.
+Mais si l'entreprise souhaite que ses employés puissent accéder à internet, elle peut vouloir bloquer l'accès à certains
+sites internet comme les réseaux sociaux ou les sites de streaming. <br>
 
-Nous pouvons maintenant ajouter une règle de PFSense.
-Définition de la règle pour ouvrir le port 80.
 
-![Configuration du réseau pfsense 5](pfsense-network-5.png)
-![Configuration du réseau pfsense 6](pfsense-network-6.png)
-![Configuration du réseau pfsense 7](pfsense-network-7.png)
-
-Une fois la règle créée, nous pouvons tester si elle est bien active.
-
-![Configuration du réseau pfsense 8](pfsense-network-8.png)
-
-Le ping fonctionne, la règle est bien active.
-
-#### Configuration du pare-feu
 
 #### Configuration de la sauvegarde
 
@@ -229,7 +228,6 @@ Si nous voulons restaurer une sauvegarde, il suffit de cliquer sur l'image de re
 
 PFSense nous demande ensuite si nous voulons restaurer la sauvegarde, il faut cliquer sur `OK`. <br> <br>
 La restauration de la sauvegarde de la configuration est maintenant terminée.
-
 
 
 ### Active Directory
@@ -503,4 +501,5 @@ Voilà, notre machine Windows est maintenant bien connectée au domaine `infra.c
 
 
 ## Conclusion
+
 
