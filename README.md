@@ -328,7 +328,7 @@ Exemple de création d'un utilisateur dans l'Unité d'Organisation Admin.
 
 ![Configuration du Windows Server 15](windows-server-config-15.png)
 
-Puis nous ajoutons l'utilisateur dans le groupe Administrateurs.
+Puis, nous ajoutons l'utilisateur dans le groupe Administrateurs.
 
 #### Configuration du DNS
 
