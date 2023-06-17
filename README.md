@@ -1,11 +1,29 @@
 # Infra Documentation D'Architecture
 
+
+## Table des matières
+* [Présentation du projet](#présentation-du-projet)
+  * [Cadre du projet](#cadre-du-projet)
+  * [Objectifs](#objectifs)
+  * [Réalisations](#réalisations)
+* [Présentation de l'architecture réseau](#présentation-de-larchitecture-réseau)
+    * [Schéma de l'architecture](#schéma-de-larchitecture)
+    * [Tableau d'adressage](#tableau-dadressage)
+    * [Explication de l'architecture](#explication-de-larchitecture)
+* [Mise en place de la solution](#mise-en-place-de-la-solution)
+
 ## Présentation du projet
 Nous sommes Olivier MISTRAL et Pierre ROY, étudiants en 2ème année Bachelor à Ynov Informatique.
 
 ### Cadre du projet
 Dans le cadre de notre unité d'enseignement “Infrastructure & Système d’information”, nous avons réalisé un projet
-visant à évaluer les compétences acquises au cours des modules de cette unité.
+visant à évaluer les compétences acquises au cours des modules de cette unité. Cette documentation présente la mise en
+place de l'architecture réseau que nous avons réalisé dans le cadre de ce projet. SAUT DE LIGNE 
+Ce projet consiste à mettre en place une architecture réseau pour une entreprise lambda. Cette architecture doit
+permettre de répondre aux besoins de l'entreprise, à savoir : avoir une sécurité de son réseau via un parefeu, que ses 
+collaborateurs puissent s’authentifier et ouvrir leur propre session, qu’ils puissent envoyer des mails en
+interne dans un premier temps, et accéder à un intranet.
+
 
 ### Objectifs
 Les objectifs de ce projet étaient les suivants:
@@ -18,10 +36,11 @@ Les objectifs de ce projet étaient les suivants:
 ### Réalisations
 Notre projet a consisté à:
 
-- Mettre en place un réseau local virtuel avec GNS3
-- Installer et configurer un serveur web Linux
-- Déployer un service DHCP et DNS sur ce serveur
-- Mettre en œuvre des règles de sécurité et de filtrage réseau.
+- Configurer un pare-feu PFSense
+- Configurer un Active Directory pour gérer les utilisateurs
+- Configurer un serveur de messagerie interne
+- Configurer un serveur web pour l'intranet
+- Respecter les règles de sécurité afin de protéger le réseau (cloisonnement des réseaux, etc.)
 
 ## Installation des machines
 
