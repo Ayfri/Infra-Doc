@@ -27,10 +27,8 @@
         * [Configuration](#configuration-2)
         * [Utilisation de la messagerie](#utilisation-de-la-messagerie)
     * [Serveur Web](#serveur-web)
-        * [Installation](#installation-3)
-        * [Configuration](#configuration-3)
     * [Client Windows](#client-windows)
-        * [Configuration](#configuration-4)
+        * [Configuration](#configuration-3)
 * [Conclusion](#conclusion)
 
 ## Présentation du projet
@@ -204,6 +202,35 @@ Une fois la règle créée, nous pouvons tester si elle est bien active.
 ![Configuration du réseau pfsense 8](pfsense-network-8.png)
 
 Le ping fonctionne, la règle est bien active.
+
+#### Configuration du pare-feu
+
+#### Configuration de la sauvegarde
+
+Nous allons maintenant configurer la sauvegarde automatique de la configuration de PFSense.
+
+![Configuration de la sauvegarde 1](pfsense-backup-1.png)
+
+Pour cela, il faut aller dans l'onglet `Services` puis `Auto Config Backup`.
+
+![Configuration de la sauvegarde 2](pfsense-backup-2.png)
+
+Il faut ensuite activer la sauvegarde automatique en cliquant sur `Enable` puis en choisissant la fréquence de
+sauvegarde. <br>
+Dans notre cas, nous allons activer la sauvegarde automatique lors de chaque modification de la configuration.
+
+![Configuration de la sauvegarde 3](pfsense-backup-3.png)
+
+Ainsi lors de chaque modification de la configuration, PFSense va sauvegarder la configuration dans un fichier XML. La 
+liste des sauvegardes est disponible dans l'onglet `Restore`. <br>
+Si nous voulons restaurer une sauvegarde, il suffit de cliquer sur l'image de restauration de la sauvegarde voulue.
+
+![Configuration de la sauvegarde 4](pfsense-backup-4.png)
+
+PFSense nous demande ensuite si nous voulons restaurer la sauvegarde, il faut cliquer sur `OK`. <br> <br>
+La restauration de la sauvegarde de la configuration est maintenant terminée.
+
+
 
 ### Active Directory
 
@@ -440,12 +467,40 @@ Ce dernier est accessible depuis les autres machines du réseau local via l'adre
 
 ### Client Windows
 
+Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`.<br>
+
+> Important ! <br>
+> La version de windows utilisée ne doit pas être une version familiale, car ces dernières ne permettent pas de rejoindre
+> un domaine.
+
+
 #### Configuration
 
-Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`.<br>
+Pour commencer, nous allons configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`. <br>
 
 ![Configuration du DNS 10](windows-client-config-200.png)
 ![Configuration du DNS 11](windows-client-config-201.png)
 
-Dans le Client Windows cela se configure dans les paramètres IPv4.
+Pour cela, on se rend dans les paramètres de la machine Windows, puis dans les paramètres avancés pour pouvoir changer
+le nom de la machine. <br>
+On a alors sur le bas de la fenêtre la possibilité de rejoindre un domaine. <br>
+Dans notre cas, nous allons renseigner le nom de domaine `infra.com` et nous allons cliquer sur le bouton `OK`. <br>
+
+![Configuration du DNS 12](windows-client-config-202.png)
+
+On nous demande alors de nous connecter avec un compte administrateur du domaine. <br>
+On se connecte alors avec le compte administrateur du domaine `infra.com`. <br>
+
+![Configuration du DNS 13](windows-client-config-203.png)
+
+Un message nous indique alors que la machine a bien été ajoutée au domaine `infra.com`. <br>
+
+![Configuration du DNS 14](windows-client-config-204.png)
+![Configuration du DNS 15](windows-client-config-205.png)
+
+Au redémarrage de la machine, on peut voir que l'on peut se connecter avec un compte du domaine `infra.com`. <br> <br>
+Voilà, notre machine Windows est maintenant bien connectée au domaine `infra.com`. <br>
+
+
+## Conclusion
 
