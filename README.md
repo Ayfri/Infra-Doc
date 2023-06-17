@@ -15,6 +15,7 @@
         * [Installation](#installation)
         * [Configuration](#configuration)
         * [Configuration du réseau](#configuration-du-réseau)
+        * [Configuration du DHCP](#configuration-du-dhcp)
         * [Configuration des règles du pare-feu](#configuration-des-règles-du-pare-feu)
         * [Configuration de la sauvegarde](#configuration-de-la-sauvegarde)
     * [Active Directory](#active-directory)
@@ -87,7 +88,8 @@ web ainsi que la messagerie (DMZ) et un pour les clients. Chaque LAN est cloison
 administrateurs.
 <br>Lan 1/AD : Ce LAN est réservé à l'Active Directory, il est donc accessible uniquement par les administrateurs et les
 utilisateurs du domaine.
-<br>Lan 2/Web-Mail (DMZ) : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par les
+<br>Lan 2/Web-Mail (DMZ) : Ce LAN est réservé au serveur web et à la messagerie, il est donc accessible uniquement par
+les
 administrateurs et les utilisateurs du domaine.
 <br>Lan 3/Clients : Ce LAN est réservé aux clients, il est donc accessible uniquement par les administrateurs et les
 utilisateurs du domaine.
@@ -175,7 +177,8 @@ Voilà ce que donne la configuration des interfaces.
 
 ![Configuration du réseau pfsense 2](pfsense-network-2.png)
 
-Une fois les interfaces configurées, PFSense créé un site local via son adresse IP pour pouvoir configurer des règles.<br>
+Une fois les interfaces configurées, PFSense créé un site local via son adresse IP pour pouvoir configurer des
+règles.<br>
 Il faut se connecter au site pour pouvoir configurer les règles (par défaut le nom de compte est admin et le mot de
 passe est pfsense).
 
@@ -186,6 +189,30 @@ passe est pfsense).
 > qui va désactiver le pare-feu pour nous permettre d’affecter nos changements.<br>
 > ![Configuration du réseau pfsense 3](pfsense-network-3.png)
 
+#### Configuration du DHCP
+
+Notre serveur DHCP est le serveur PFSense, il faut donc le configurer pour qu'il puisse attribuer des adresses IP aux
+clients. <br>
+
+Pour cela, il faut aller dans l'onglet `Services` puis `DHCP Server`. Ensuite, on choisit sur quel LAN on veut
+configurer le serveur DHCP. <br>
+
+![Configuration du réseau pfsense 4](pfsense-dhcp-1.png)
+
+Après avoir choisi le LAN, il faut activer le serveur DHCP en cochant la
+case `Enable DHCP server on LAN interface`. <br>
+
+![Configuration du réseau pfsense 4](pfsense-dhcp-2.png)
+
+Ensuite, il faut configurer le serveur DHCP en choisissant une plage d'adresses IP à attribuer aux clients. <br>
+
+![Configuration du réseau pfsense 4](pfsense-dhcp-3.png)
+
+On choisit ensuite le serveur DNS à utiliser, dans notre cas, nous utilisons le serveur DNS de notre Active Directory.
+
+![Configuration du réseau pfsense 4](pfsense-dhcp-4.png)
+
+Enfin, on configure la passerelle par défaut, dans notre cas, nous utilisons l'adresse IP de notre serveur PFSense
 
 #### Configuration des règles du pare-feu
 
@@ -197,12 +224,10 @@ Une fois la LAN choisie, on clique sur `Add` pour ajouter une règle. <br> <br>
 Dans notre cas la règle la plus importante est celle qui permet de bloquer les connexions venant du WAN vers le LAN du
 serveur web et mail. En effet, comme il s'agit d'un intranet, nous ne voulons pas que des personnes extérieures puissent
 accéder à ces services. <br> <br>
-Concernant les autres règles, cela dépend les besoins de chaque entreprise. Par exemple, une entreprise manipulant des 
+Concernant les autres règles, cela dépend les besoins de chaque entreprise. Par exemple, une entreprise manipulant des
 données sensibles peut vouloir bloquer l'accès à certains sites internet voir bloquer l'accès à internet tout court.
 Mais si l'entreprise souhaite que ses employés puissent accéder à internet, elle peut vouloir bloquer l'accès à certains
 sites internet comme les réseaux sociaux ou les sites de streaming. <br>
-
-
 
 #### Configuration de la sauvegarde
 
@@ -220,7 +245,7 @@ Dans notre cas, nous allons activer la sauvegarde automatique lors de chaque mod
 
 ![Configuration de la sauvegarde 3](pfsense-backup-3.png)
 
-Ainsi lors de chaque modification de la configuration, PFSense va sauvegarder la configuration dans un fichier XML. La 
+Ainsi lors de chaque modification de la configuration, PFSense va sauvegarder la configuration dans un fichier XML. La
 liste des sauvegardes est disponible dans l'onglet `Restore`. <br>
 Si nous voulons restaurer une sauvegarde, il suffit de cliquer sur l'image de restauration de la sauvegarde voulue.
 
@@ -228,7 +253,6 @@ Si nous voulons restaurer une sauvegarde, il suffit de cliquer sur l'image de re
 
 PFSense nous demande ensuite si nous voulons restaurer la sauvegarde, il faut cliquer sur `OK`. <br> <br>
 La restauration de la sauvegarde de la configuration est maintenant terminée.
-
 
 ### Active Directory
 
@@ -326,18 +350,20 @@ Nous allons ajouter une zone de recherche inversée pour le domaine `infra.com`.
 Concernant les options à choisir on laisse les options par défaut sauf dans le nom de la zone de recherche inversée où
 on indique le début de l'adresse IP du serveur Windows Server 2019. Ainsi, la zone de recherche inversée sera
 `10.0`.<br>
-On fait ceci pour que le serveur DNS puisse faire la résolution de nom de domaine et de toutes les adresses IP du réseau.
+On fait ceci pour que le serveur DNS puisse faire la résolution de nom de domaine et de toutes les adresses IP du
+réseau.
 
 [//]: # (![Configuration du DNS 8]&#40;windows-server-dns-8.png&#41;)
 
 [//]: # ()
+
 [//]: # (Nous créons un nouveau pointeur pour la zone de recherche inversée.)
 
 ![Configuration du DNS 9](windows-server-dns-9.png)
 
-On utilise la commande `nslookup` pour vérifier que la résolution de nom de domaine fonctionne bien. On vérifie aussi 
+On utilise la commande `nslookup` pour vérifier que la résolution de nom de domaine fonctionne bien. On vérifie aussi
 que la résolution de nom de domaine inverse fonctionne bien.
-<br> <br> 
+<br> <br>
 Notre serveur DNS est maintenant configuré.
 
 ### Serveur de messagerie
@@ -359,7 +385,7 @@ On laisse les options par défaut pour la plupart des options, dans la partie "S
 
 ![Configuration du Windows Exchange Server 2](exchange-2.png)
 
-On continue alors jusqu'à demander le nom de l'organisation. On choisit `infra.com` pour le nom de l'organisation dans 
+On continue alors jusqu'à demander le nom de l'organisation. On choisit `infra.com` pour le nom de l'organisation dans
 notre cas. <br>
 Après cela on continue jusqu'à la fin des configurations. <br>
 Se lancera alors l'installation de Windows Exchange Server 2019 qui peut être excessivement longue. Une fois
@@ -384,7 +410,8 @@ d'administrateur du serveur de messagerie.
 
 ![Configuration du Windows Exchange Server 6](exchange-6.png)
 
-Maintenant que le compte administrateur est créé, nous pouvons nous connecter au serveur de messagerie avec ce compte. <br>
+Maintenant que le compte administrateur est créé, nous pouvons nous connecter au serveur de messagerie avec ce
+compte. <br>
 Pour cela, nous allons entrer l'url `https://localhost/ecp` dans un navigateur web. <br>
 Cela nous permettra de nous connecter à l'interface d'administration du serveur de messagerie. <br>
 Nous allons nous connecter avec le compte administrateur que nous venons de créer.
@@ -427,9 +454,7 @@ reçu. <br> <br>
 Ainsi, nous avons configuré un serveur de messagerie avec Windows Exchange Server 2019 et nous avons pu envoyer et
 recevoir des mails sur notre domaine `infra.com`.
 
-
 ## Serveur Web
-
 
 Pour le serveur web, nous allons utiliser le service Nginx. <br>
 Nous allons installer le service Nginx sur une nouvelle machine Ubuntu. <br> <br>
@@ -454,23 +479,25 @@ Une fois l'installation terminée, on peut vérifier que le service Nginx est bi
 sudo systemctl status nginx
 ```
 
-Une fois le service Nginx installé, on peut se connecter à l'adresse IP de la machine Ubuntu avec un navigateur web. <br>
+Une fois le service Nginx installé, on peut se connecter à l'adresse IP de la machine Ubuntu avec un navigateur
+web. <br>
 Ainsi, on peut voir que le service Nginx est bien installé et qu'il fonctionne. <br> <br>
-Il reste maintenant à personnaliser la page d'accueil du serveur web afin qu'elle corresponde à notre domaine `infra.com`. <br>
-Étant donné que dans notre cas, il s'agit d'un projet de test, nous laisserons la page d'accueil par défaut de Nginx. <br> <br>
+Il reste maintenant à personnaliser la page d'accueil du serveur web afin qu'elle corresponde à notre
+domaine `infra.com`. <br>
+Étant donné que dans notre cas, il s'agit d'un projet de test, nous laisserons la page d'accueil par défaut de
+Nginx. <br> <br>
 
 Ainsi, nous avons configuré un serveur web avec Nginx sur une machine Ubuntu. <br>
 Ce dernier est accessible depuis les autres machines du réseau local via l'adresse IP de la machine Ubuntu.
-
 
 ### Client Windows
 
 Nous allons maintenant configurer le client Windows pour qu'il puisse rejoindre le domaine `infra.com`.<br>
 
 > Important ! <br>
-> La version de windows utilisée ne doit pas être une version familiale, car ces dernières ne permettent pas de rejoindre
+> La version de windows utilisée ne doit pas être une version familiale, car ces dernières ne permettent pas de
+> rejoindre
 > un domaine.
-
 
 #### Configuration
 
@@ -497,9 +524,14 @@ Un message nous indique alors que la machine a bien été ajoutée au domaine `i
 ![Configuration du DNS 15](windows-client-config-205.png)
 
 Au redémarrage de la machine, on peut voir que l'on peut se connecter avec un compte du domaine `infra.com`. <br> <br>
-Voilà, notre machine Windows est maintenant bien connectée au domaine `infra.com`. <br>
-
+Voilà, notre machine Windows est maintenant bien connectée au domaine `infra.com`. <br> <br>
+Elle est donc maintenant prête à être utilisée et à utiliser les différents services du domaine `infra.com` comme le
+serveur de messagerie ou l'intranet.
 
 ## Conclusion
+
+Pour conclure ce projet, nous avons pu mettre en place un domaine `infra.com` avec un serveur DNS, un serveur DHCP, un
+serveur de messagerie et un intranet. <br>
+
 
 
