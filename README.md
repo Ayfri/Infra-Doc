@@ -310,8 +310,96 @@ On fait ceci pour que le serveur DNS puisse faire la résolution de nom de domai
 
 On utilise la commande `nslookup` pour vérifier que la résolution de nom de domaine fonctionne bien. On vérifie aussi 
 que la résolution de nom de domaine inverse fonctionne bien.
+<br> <br> 
+Notre serveur DNS est maintenant configuré.
 
-### Serveur Web/Mail
+### Serveur de messagerie
+
+Pour le service de messagerie, nous allons utiliser le service de messagerie de Windows Exchange Server 2019.<br>
+Nous allons installer le service de messagerie un nouveau serveur Windows Server 2019. <br>
+Nous passerons donc les détails de l'installation du windows serveur ainsi que des bonnes pratiques à respecter lors de
+l'installation car nous l'avons déjà fait précédemment. <br>
+
+#### Installation
+
+Pour commencer il faudra télécharger l'image ISO de Windows Exchange Server 2019 sur le site de Microsoft.<br>
+Une fois l'image ISO téléchargée, nous pouvons lancer l'installation de Windows Exchange Server 2019.
+
+![Configuration du Windows Exchange Server 1](exchange-1.png)
+
+On laisse les options par défaut pour la plupart des options, dans la partie "Sélection du rôle serveur" on choisit
+`Rôle de boîte aux lettres`.
+
+![Configuration du Windows Exchange Server 2](exchange-2.png)
+
+On continue alors jusqu'à demander le nom de l'organisation. On choisit `infra.com` pour le nom de l'organisation dans 
+notre cas. <br>
+Après cela on continue jusqu'à la fin des configurations. <br>
+Se lancera alors l'installation de Windows Exchange Server 2019 qui peut être excessivement longue. Une fois
+l'installation terminée, on redémarre le serveur.
+
+#### Configuration
+
+Avant de configurer le serveur de messagerie, on va retourner dans l'Active Directory pour créer un nouvel utilisateur
+qui sera le compte administrateur du serveur de messagerie. <br>
+
+![Configuration du Windows Exchange Server 3](exchange-3.png)
+
+Par ailleurs, on se rend compte en retournant dans l'AD qu'une nouvelle Unité d'Organisation a été créée pour le serveur
+de messagerie.
+
+![Configuration du Windows Exchange Server 4](exchange-4.png)
+![Configuration du Windows Exchange Server 5](exchange-5.png)
+
+Afin de clarifier les choses, nous allons créer une Unité d'Organisation `Exchange` dans laquelle nous allons mettre le
+ou les comptes administrateurs du serveur de messagerie. Il ne faut donc pas oublier de lui associer les droits
+d'administrateur du serveur de messagerie.
+
+![Configuration du Windows Exchange Server 6](exchange-6.png)
+
+Maintenant que le compte administrateur est créé, nous pouvons nous connecter au serveur de messagerie avec ce compte. <br>
+Pour cela, nous allons entrer l'url `https://localhost/ecp` dans un navigateur web. <br>
+Cela nous permettra de nous connecter à l'interface d'administration du serveur de messagerie. <br>
+Nous allons nous connecter avec le compte administrateur que nous venons de créer.
+
+![Configuration du Windows Exchange Server 7](exchange-7.png)
+
+Nous arrivons alors sur l'interface d'administration du serveur de messagerie. <br>
+De là, nous allons pouvoir configurer le serveur de messagerie. <br>
+
+![Configuration du Windows Exchange Server 8](exchange-8.png)
+
+Dans notre cas nous allons ajouter une nouvelle boîte aux lettres pour l'utilisateur `Pace Fabio`.
+
+![Configuration du Windows Exchange Server 9](exchange-9.png)
+
+On remplit alors l'alias de la boîte aux lettres, c'est-à-dire le suffixe de l'adresse mail. <br>
+Et on n'oublie pas non plus de choisir l'utilisateur auquel on veut associer la boîte aux lettres. <br> <br>
+Une fois cela fait, notre boîte aux lettres est créée et est prête à être utilisée.
+
+#### Utilisation de la messagerie
+
+Pour utiliser la messagerie, nous allons utiliser nous connecter sur une machine Client Windows. <br>
+On inscrit alors dans l'url du navigateur web l'adresse IP du serveur de messagerie, ce qui nous permettra de nous
+connecter à l'interface de connexion de la messagerie. <br>
+On se connecte alors avec l'adresse mail et le mot de passe de l'utilisateur auquel on a associé la boîte aux lettres.
+
+![Configuration du Windows Exchange Server 10](exchange-10.png)
+
+Nous voilà connecté à la messagerie sur le compte de l'utilisateur `Pace Fabio`. <br>
+
+![Configuration du Windows Exchange Server 11](exchange-11.png)
+
+On peut alors envoyer un mail à un autre utilisateur de la messagerie. <br>
+
+![Configuration du Windows Exchange Server 12](exchange-12.png)
+
+En se connectant sur la messagerie de l'utilisateur auquel on a envoyé le mail, on peut voir que le mail a bien été
+reçu. <br> <br>
+
+Ainsi, nous avons configuré un serveur de messagerie avec Windows Exchange Server 2019 et nous avons pu envoyer et
+recevoir des mails sur notre domaine `infra.com`.
+
 
 ### Client Windows
 
