@@ -529,3 +529,16 @@ Elle est donc maintenant prête à être utilisée et à utiliser les différent
 ## Conclusion
 
 Pour conclure ce projet, nous avons pu mettre en place un domaine `infra.com` avec un serveur DNS, un serveur DHCP, un serveur de messagerie et un intranet. <br>
+
+Ce projet nous a permis de mettre en place une infrastructure réseau complète pour une petite entreprise. Nous avons appris et mis en pratique les concepts et les composants
+suivants :
+
+- Pare-feu : avec PFSense, nous avons cloisonné les réseaux, contrôlé le trafic et assuré la sécurité des communications.
+- Active Directory : nous avons configuré un domaine pour gérer de manière centralisée les utilisateurs, leurs droits d'accès et leurs sessions.
+- Serveur de messagerie : le serveur Exchange que nous avons installé permet maintenant aux utilisateurs du domaine d'échanger des emails en interne.
+- Serveur web : l'intranet que nous avons créé permettra aux employés d'accéder à des ressources partagées sur le réseau.
+- Client Windows : la configuration des postes clients a permis aux employés de s'authentifier sur le réseau d'entreprise et d'utiliser les ressources mises en place.
+
+Ce projet a été l'occasion de mettre en pratique et de consolider nos connaissances dans les domaines des réseaux, de la sécurité et de l'administration système.
+Nous avons pu constater l'importance de la documentation et du respect des bonnes pratiques pour assurer le fonctionnement et la maintenance à long terme d'une infrastructure
+complexe.

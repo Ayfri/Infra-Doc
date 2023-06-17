@@ -92,6 +92,10 @@ Voilà, votre boite mail est créée et vous pouvez vous y connecter depuis une 
 
 ## Conclusion
 
-Vous avez maintenant toutes les informations nécessaires pour exploiter notre infrastructure. <br>
+Dans ce document, nous avons présenté les étapes pour exploiter notre infrastructure,
+notamment la création d'un utilisateur et d'une boite mail grâce à l'interface de l'A.D. (Active Directory) et de l'interface de Windows Exchange.
+Ces étapes sont essentielles pour gérer les utilisateurs et leurs communications au sein d'une entreprise fictive.
+
+Vous avez maintenant toutes les informations nécessaires pour exploiter notre infrastructure.
 
 **Pour plus de détails concernant ce projet et son architecture, veuillez vous référer au Document d'Architecture Technique (DAT).**
